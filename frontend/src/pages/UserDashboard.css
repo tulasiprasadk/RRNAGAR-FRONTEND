@@ -1,0 +1,232 @@
+/* CONTAINER */
+.dash-container {
+  width: 95%;
+  max-width: 1100px;
+  margin: 40px auto;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* WELCOME BOX */
+.dash-welcome {
+  background: #ffd500;
+  padding: 25px;
+  border-radius: 12px;
+  border-left: 8px solid #c8102e;
+  margin-bottom: 35px;
+}
+
+.welcome-name {
+  margin: 0;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.welcome-phone {
+  margin: 5px 0 0;
+  font-size: 18px;
+  color: #333;
+}
+
+/* DASHBOARD CARDS */
+.dash-cards {
+  display: flex;
+  justify-content: space-between;
+  gap: 25px;
+}
+
+.dash-card {
+  flex: 1;
+  background: white;
+  border-radius: 14px;
+  padding: 35px 20px;
+  text-align: center;
+  cursor: pointer;
+
+  border: 2px solid #ffd500;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+
+  transition: 0.25s ease;
+}
+
+.dash-card:hover {
+  transform: translateY(-5px);
+  border-color: #c8102e;
+}
+
+.card-number {
+  font-size: 40px;
+  font-weight: bold;
+  color: #c8102e;
+}
+
+.card-label {
+  font-size: 20px;
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+/* Simple fade animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* DASHBOARD SECTIONS */
+.dash-section {
+  background: white;
+  border-radius: 12px;
+  padding: 25px;
+  margin-top: 25px;
+  border: 2px solid #f0f0f0;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #ffd500;
+}
+
+.section-header h3 {
+  margin: 0;
+  font-size: 22px;
+  color: #c8102e;
+}
+
+.view-all-btn {
+  background: #c8102e;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.view-all-btn:hover {
+  background: #a00d26;
+}
+
+.empty-message {
+  text-align: center;
+  color: #888;
+  padding: 30px;
+  font-size: 16px;
+}
+
+/* ORDERS LIST */
+.orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  border-left: 4px solid #ffd500;
+  transition: 0.2s;
+}
+
+.order-item:hover {
+  background: #f0f0f0;
+  border-left-color: #c8102e;
+}
+
+.order-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.order-id {
+  font-weight: bold;
+  font-size: 16px;
+  color: #333;
+}
+
+.order-date {
+  font-size: 14px;
+  color: #666;
+}
+
+.order-details {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.order-amount {
+  font-weight: bold;
+  font-size: 18px;
+  color: #c8102e;
+}
+
+.order-status {
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.status-created,
+.status-pending {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.status-confirmed {
+  background: #d4edda;
+  color: #155724;
+}
+
+.status-delivered {
+  background: #d1ecf1;
+  color: #0c5460;
+}
+
+.status-cancelled {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+/* Paid status badge */
+.status-paid {
+  background: #d4edda;
+  color: #155724;
+}
+
+/* ADDRESSES LIST */
+.addresses-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.address-item {
+  padding: 15px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  border-left: 4px solid #ffd500;
+}
+
+.address-label {
+  font-weight: bold;
+  color: #c8102e;
+  margin-bottom: 8px;
+  font-size: 15px;
+}
+
+.address-text {
+  color: #555;
+  font-size: 14px;
+  line-height: 1.5;
+}

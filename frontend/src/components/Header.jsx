@@ -4,6 +4,9 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import "./Header.css";
 
+// ✅ IMPORT LOGO (Vite will resolve correct path)
+import logo from "../assets/logo.png";
+
 export default function Header() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true); // prevent UI flashing
@@ -39,10 +42,7 @@ export default function Header() {
         if (isMounted) setLoading(false);
       });
 
-    // Update cart count on mount
     updateCartCount();
-
-    // Update cart count every second
     const interval = setInterval(updateCartCount, 1000);
 
     return () => {
@@ -69,16 +69,19 @@ export default function Header() {
 
         <div className="rn-logo-wrap">
           <Link to="/" className="rn-logo-link">
-            <img src="/logo.png" alt="RR Nagar" className="rn-logo" />
+            <img src={logo} alt="RR Nagar" className="rn-logo" />
             <div className="rn-subtitle">RR ನಗರದ ಹೊಸ ಡಿಜಿಟಲ್ ಅನುಭವ</div>
           </Link>
         </div>
 
         <nav className="rn-nav">
           <Link className="rn-nav-item" to="/">Home</Link>
+
           <Link className="rn-nav-item cart-link" to="/cart">
             🛒 Cart
-            {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
+            {cartCount > 0 && (
+              <span className="cart-badge">{cartCount}</span>
+            )}
           </Link>
 
           {!loading && !user && (

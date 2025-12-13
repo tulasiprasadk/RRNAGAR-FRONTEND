@@ -147,7 +147,7 @@ export default function Home() {
       ADS
   ----------------------------------- */
   const ads = [
-    { image: ad1, title: "Chase Supermarket", link: "https://vchase.in" },
+    { image: ad1, title: "iChase fitness", link: "https://vchase.in" },
     { image: ad2, title: "Marketing", link: "https://vchase.in" },
     { image: ad3, title: "Crackers", link: "https://rrnagar.com" },
     { image: ad4, title: "Pet Services", link: "https://thevetbuddy.com" }
@@ -358,7 +358,9 @@ export default function Home() {
                 <span className="icon">{c.icon || "📦"}</span>
                 <div className="label" style={{ display: 'flex', flexDirection: 'column', lineHeight: 1.2 }}>
                   <span style={{ fontWeight: 700 }}>{c.name || ""}</span>
-                  <span style={{ color: '#b30000', fontSize: '0.95em' }}>{c.nameKannada || c.name}</span>
+                  {c.nameKannada && c.nameKannada !== c.name && (
+                    <span style={{ color: '#b30000', fontSize: '0.95em' }}>{c.nameKannada}</span>
+                  )}
                 </div>
               </div>
             ))}

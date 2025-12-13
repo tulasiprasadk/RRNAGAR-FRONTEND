@@ -5,15 +5,15 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
   const navigate = useNavigate();
 
   const requestOtp = async () => {
     try {
-      await axios.post("/api/auth/request-otp", { phone }, { withCredentials: true });
+      await axios.post("/api/auth/request-otp", { email }, { withCredentials: true });
 
       // Move to OTP verification page
-      navigate("/verify", { state: { phone } });
+      navigate("/verify", { state: { email } });
 
     } catch (err) {
       console.error("OTP Request Error:", err);
@@ -24,13 +24,13 @@ export default function Login() {
 
   return (
     <div style={{ padding: "30px" }}>
-      <h2>Login</h2>
+      <h2>Login with Email</h2>
 
       <input
-        type="text"
-        value={phone}
-        placeholder="Enter phone number"
-        onChange={(e) => setPhone(e.target.value)}
+        type="email"
+        value={email}
+        placeholder="Enter email address"
+        onChange={(e) => setEmail(e.target.value)}
         style={{
           padding: "8px",
           width: "250px",

@@ -161,15 +161,6 @@
   font-weight: 500;
   color: #333;
 }
-  text-align: left;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 500;
-  transition: all 0.2s ease;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
 
 .category-list button:hover,
 .variety-list button:hover {

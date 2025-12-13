@@ -1,7 +1,8 @@
 // src/api/client.js
 // Helper API client functions for frontend
 
-const API_BASE = import.meta.env.VITE_API_BASE || '';
+// Default to Vite proxy path in dev so requests go to local backend
+const API_BASE = import.meta.env.VITE_API_BASE || '/api';
 
 export { API_BASE };
 

@@ -6,7 +6,7 @@ export default function CustomerVerify() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const phone = location.state?.phone || "";
+  const email = location.state?.email || "";
   const [otp, setOtp] = useState("");
   const [isNewUser, setIsNewUser] = useState(false);
   const [address, setAddress] = useState({
@@ -20,7 +20,7 @@ export default function CustomerVerify() {
 
   const handleVerify = async () => {
     try {
-      const res = await axios.post("/api/auth/verify-otp", { phone, otp }, { withCredentials: true });
+      const res = await axios.post("/api/auth/verify-otp", { email, otp }, { withCredentials: true });
 
       // Check if this is a new user (first time login)
       if (res.data.isNewUser) {
@@ -47,7 +47,6 @@ export default function CustomerVerify() {
       
       const response = await axios.post("/api/customer/address", {
         ...address,
-        phone: phone
       }, { withCredentials: true });
 
       console.log("Address saved:", response.data);
@@ -141,7 +140,7 @@ export default function CustomerVerify() {
     <div style={{ padding: 30 }}>
       <h2>Verify OTP</h2>
 
-      <p>OTP sent to: <b>{phone}</b></p>
+      <p>OTP sent to: <b>{email}</b></p>
 
       <input
         value={otp}

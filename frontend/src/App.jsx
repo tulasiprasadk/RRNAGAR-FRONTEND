@@ -3,7 +3,6 @@
 import React from "react";
 import axios from "axios";
 import {
-  BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
@@ -81,7 +80,6 @@ import VendorKycApproval from "./pages/admin/VendorKycApproval.jsx";
 import AdminKycApproval from "./pages/admin/AdminKycApproval.jsx";
 import CmsManager from "./pages/admin/CmsManager.jsx";
 
-
 /* WRAPPER FOR HEADER / FOOTER */
 function AppWrapper() {
   const location = useLocation();
@@ -125,7 +123,7 @@ function AppWrapper() {
           <Route path="/payment" element={<PaymentPage />} />
           <Route path="/payment-success" element={<PaymentSubmitted />} />
 
-          {/* LEGAL PAGES */}
+          {/* LEGAL */}
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/terms" element={<TermsOfService />} />
 
@@ -143,7 +141,7 @@ function AppWrapper() {
           {/* ===================== ADMIN LOGIN ===================== */}
           <Route path="/admin/login" element={<AdminLogin />} />
 
-          {/* ===================== ADMIN PROTECTED ROUTES ===================== */}
+          {/* ===================== ADMIN PROTECTED ===================== */}
           <Route element={<RequireAdmin />}>
             <Route path="/admin" element={<AdminLayout />}>
               <Route index element={<AdminDashboard />} />
@@ -181,13 +179,11 @@ function AppWrapper() {
 
 /* MAIN EXPORT */
 export default function App() {
-  // Ensure cookies are sent for all API calls
   axios.defaults.withCredentials = true;
+
   return (
     <AdminAuthProvider>
-      <Router>
-        <AppWrapper />
-      </Router>
+      <AppWrapper />
     </AdminAuthProvider>
   );
 }

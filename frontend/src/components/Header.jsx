@@ -35,6 +35,7 @@ export default function Header() {
         }
       })
       .catch(() => {
+        // API call failed (e.g., no backend available) - show login link
         if (!isMounted) return;
         setUser(null);
       })
@@ -49,7 +50,7 @@ export default function Header() {
       isMounted = false;
       clearInterval(interval);
     };
-  }, [location.pathname]);
+  }, []);
 
   const handleLogout = async () => {
     try {

@@ -202,7 +202,11 @@ export default function Home() {
                 className="cat-card"
                 onClick={() => handleCategoryClick(cat.id)}
               >
-                <span className="icon">{cat.icon || "🛍️"}</span>
+                {cat.image ? (
+                  <img src={cat.image} alt={cat.name} className="cat-image" />
+                ) : (
+                  <span className="icon">{cat.icon || "🛍️"}</span>
+                )}
                 <span className="label">{cat.name}</span>
               </div>
             ))}

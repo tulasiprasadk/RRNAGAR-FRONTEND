@@ -192,6 +192,14 @@
   margin-top: 8px;
 }
 
+.cat-image {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
 .icon {
   font-size: 48px;
   margin-bottom: 6px;

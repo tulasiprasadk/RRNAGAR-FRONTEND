@@ -1,3 +1,5 @@
+// Home page – hero, categories, ads, discover & products (final clean version)
+
 import React, { useState, useEffect, useRef } from "react";
 import "./Home.css";
 import ExploreItem from "../components/ExploreItem";
@@ -8,8 +10,9 @@ import { useNavigate } from "react-router-dom";
 import hero1 from "../assets/hero-1.jpg";
 import hero2 from "../assets/hero-2.jpg";
 import hero3 from "../assets/hero-3.jpg";
-import hero4 from "../assets/hero-4.jpg"; // ✅ ADDED
+import hero4 from "../assets/hero-4.jpg";
 
+/* ================= ADS ================= */
 import ad1 from "../assets/ads/ad1.jpg";
 import ad2 from "../assets/ads/ad2.jpg";
 import ad3 from "../assets/ads/ad3.jpg";
@@ -18,17 +21,24 @@ import ad4 from "../assets/ads/ad4.jpg";
 export default function Home() {
   const navigate = useNavigate();
 
-  /* -----------------------------------
-      HERO SLIDER
-  ----------------------------------- */
-  const heroImages = [hero1, hero2, hero3, hero4]; // ✅ UPDATED
+  /* ================= HERO SLIDER ================= */
+  const heroImages = [hero1, hero2, hero3, hero4];
   const fallbackHero = "/images/rrnagar_hero.jpg";
   const [heroIndex, setHeroIndex] = useState(0);
   const [heroSrc, setHeroSrc] = useState(heroImages[0] || fallbackHero);
 
-  /* -----------------------------------
-      PRODUCTS & SEARCH
-  ----------------------------------- */
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setHeroIndex((prev) => (prev + 1) % heroImages.length);
+    }, 6000);
+    return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    setHeroSrc(heroImages[heroIndex] || fallbackHero);
+  }, [heroIndex]);
+
+  /* ================= PRODUCTS ================= */
   const [products, setProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -42,7 +52,7 @@ export default function Home() {
   async function loadProducts() {
     try {
       const res = await axios.get("/api/products");
-      setProducts(res.data);
+      setProducts(res.data || []);
     } catch (err) {
       console.error("Error loading products:", err);
     }
@@ -52,30 +62,17 @@ export default function Home() {
     setAddingToCart(product.id);
     try {
       const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-      const existing = cart.find(item => item.id === product.id);
+      const existing = cart.find((i) => i.id === product.id);
 
       if (existing) {
         existing.quantity += 1;
       } else {
-        cart.push({
-          id: product.id,
-          title: product.title,
-          titleKannada: product.titleKannada,
-          description: product.description,
-          descriptionKannada: product.descriptionKannada,
-          price: product.price,
-          unit: product.unit,
-          quantity: 1,
-          image: product.image,
-          variety: product.variety,
-          subVariety: product.subVariety
-        });
+        cart.push({ ...product, quantity: 1 });
       }
 
       localStorage.setItem("cart", JSON.stringify(cart));
-      alert(`✓ ${product.title} added to cart!`);
+      alert(`✓ ${product.title} added to cart`);
     } catch (err) {
-      console.error("Error adding to cart:", err);
       alert("Failed to add to cart");
     } finally {
       setAddingToCart(null);
@@ -84,8 +81,7 @@ export default function Home() {
 
   function handleSearchClick() {
     setHasSearched(true);
-
-    if (searchQuery.trim() === "") {
+    if (!searchQuery.trim()) {
       setFilteredProducts(products.slice(0, 12));
     } else {
       navigate(`/browse?q=${encodeURIComponent(searchQuery)}`);
@@ -93,26 +89,10 @@ export default function Home() {
   }
 
   function handleKeyPress(e) {
-    if (e.key === "Enter") {
-      handleSearchClick();
-    }
+    if (e.key === "Enter") handleSearchClick();
   }
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setHeroIndex(prev => (prev + 1) % heroImages.length);
-    }, 6000);
-    return () => clearInterval(timer);
-  }, []);
-
-  useEffect(() => {
-    const nextSrc = heroImages[heroIndex] || fallbackHero;
-    setHeroSrc(nextSrc);
-  }, [heroIndex]);
-
-  /* -----------------------------------
-      CATEGORIES
-  ----------------------------------- */
+  /* ================= CATEGORIES ================= */
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
@@ -122,7 +102,7 @@ export default function Home() {
   async function loadCategories() {
     try {
       const res = await axios.get("/api/categories");
-      setCategories(res.data);
+      setCategories(res.data || []);
     } catch {
       setCategories([
         { id: 1, name: "Flowers", icon: "🌸" },
@@ -135,25 +115,20 @@ export default function Home() {
     }
   }
 
-  function handleCategoryClick(categoryId) {
-    navigate(`/browse?category=${categoryId}`);
+  function handleCategoryClick(id) {
+    navigate(`/browse?category=${id}`);
   }
 
-  /* -----------------------------------
-      ADS
-  ----------------------------------- */
+  /* ================= ADS ================= */
   const ads = [
-    { image: ad1, title: "iChase fitness", link: "https://vchase.in" },
+    { image: ad1, title: "iChase Fitness", link: "https://vchase.in" },
     { image: ad2, title: "Marketing", link: "https://vchase.in" },
     { image: ad3, title: "Crackers", link: "https://rrnagar.com" },
     { image: ad4, title: "Pet Services", link: "https://thevetbuddy.com" },
   ];
-
   const adsLoop = [...ads, ...ads];
 
-  /* -----------------------------------
-      DISCOVER
-  ----------------------------------- */
+  /* ================= DISCOVER ================= */
   const discover = [
     { title: "Temples", desc: "Spiritual places", icon: "🛕" },
     { title: "Parks", desc: "Green spaces", icon: "🌳" },
@@ -168,43 +143,35 @@ export default function Home() {
   useEffect(() => {
     if (!discoverRef.current) return;
 
-    const computeWidth = () => {
-      const items = discoverRef.current.querySelectorAll(".discover-item");
+    const calcWidth = () => {
       let total = 0;
-
-      items.forEach(item => {
+      discoverRef.current.querySelectorAll(".discover-item").forEach((item) => {
         const style = window.getComputedStyle(item);
         total += item.offsetWidth + parseFloat(style.marginRight || "0");
       });
-
       setScrollWidth(total);
     };
 
-    computeWidth();
-    window.addEventListener("resize", computeWidth);
-    return () => window.removeEventListener("resize", computeWidth);
+    calcWidth();
+    window.addEventListener("resize", calcWidth);
+    return () => window.removeEventListener("resize", calcWidth);
   }, []);
 
-  /* -----------------------------------
-      DERIVED DATA
-  ----------------------------------- */
+  /* ================= DERIVED ================= */
   const featuredProducts = products.slice(0, 8);
   const displayedProducts = hasSearched ? filteredProducts : featuredProducts;
 
-  /* -----------------------------------
-      UI
-  ----------------------------------- */
+  /* ================= UI ================= */
   return (
     <main className="home">
+      {/* HERO */}
       <section className="hero">
         <div className="hero-inner">
           <div className="hero-image">
             <img
               src={heroSrc}
               alt="RR Nagar"
-              onError={e => {
-                e.currentTarget.src = fallbackHero;
-              }}
+              onError={(e) => (e.currentTarget.src = fallbackHero)}
             />
           </div>
 
@@ -214,30 +181,23 @@ export default function Home() {
 
             <div className="hero-search">
               <input
-                className="hero-search-input"
                 placeholder="Search groceries, flowers, products…"
                 value={searchQuery}
-                onChange={e => setSearchQuery(e.target.value)}
+                onChange={(e) => setSearchQuery(e.target.value)}
                 onKeyPress={handleKeyPress}
               />
-              <button className="hero-search-btn" onClick={handleSearchClick}>
-                Search
-              </button>
+              <button onClick={handleSearchClick}>Search</button>
             </div>
           </div>
         </div>
       </section>
 
       <div className="content">
-        {/* Popular categories */}
+        {/* CATEGORIES */}
         <section className="section">
           <h2 className="section-title">Popular Categories</h2>
           <div className="cat-row">
-            {categories.length === 0 && (
-              <p style={{ color: "#666" }}>Loading categories…</p>
-            )}
-
-            {categories.map(cat => (
+            {categories.map((cat) => (
               <div
                 key={cat.id}
                 className="cat-card"
@@ -250,31 +210,29 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Ads marquee */}
+        {/* ADS */}
         <section className="section">
-          <h2 className="section-title">What is New in RR Nagar</h2>
+          <h2 className="section-title">What’s New in RR Nagar</h2>
           <div className="ads-viewport">
             <div className="ads-track">
-              {adsLoop.map((ad, idx) => (
+              {adsLoop.map((ad, i) => (
                 <a
-                  key={`${ad.title}-${idx}`}
+                  key={i}
                   href={ad.link}
-                  className="ad-item"
                   target="_blank"
                   rel="noreferrer"
+                  className="ad-item"
                 >
                   <div className="ad-title">{ad.title}</div>
                   <img src={ad.image} alt={ad.title} />
-                  <div style={{ color: "#4a0000", fontWeight: 600, fontSize: 14 }}>
-                    Tap to view
-                  </div>
+                  <div className="ad-cta">Tap to view</div>
                 </a>
               ))}
             </div>
           </div>
         </section>
 
-        {/* Discover carousel */}
+        {/* DISCOVER */}
         <section className="section">
           <h2 className="section-title">Discover Around You</h2>
           <div className="discover-viewport">
@@ -283,75 +241,45 @@ export default function Home() {
               className="discover-track"
               style={{ "--scroll-width": `${scrollWidth}px` }}
             >
-              {[...discover, ...discover].map((item, idx) => (
-                <div className="discover-item" key={`${item.title}-${idx}`}>
-                  <ExploreItem
-                    icon={item.icon}
-                    title={item.title}
-                    desc={item.desc}
-                    longInfo={item.desc}
-                  />
+              {[...discover, ...discover].map((item, i) => (
+                <div className="discover-item" key={i}>
+                  <ExploreItem {...item} longInfo={item.desc} />
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* Products grid */}
+        {/* PRODUCTS */}
         <section className="section">
           <h2 className="section-title">Fresh Picks for You</h2>
-          {displayedProducts.length === 0 ? (
-            <p style={{ textAlign: "center", color: "#666" }}>
-              {hasSearched
-                ? "No products found. Try another search."
-                : "Products are loading…"}
-            </p>
-          ) : (
-            <div className="products-grid">
-              {displayedProducts.map(product => (
-                <div
-                  key={product.id}
-                  className="product-card"
-                  onClick={() => navigate(`/product/${product.id}`)}
+          <div className="products-grid">
+            {displayedProducts.map((product) => (
+              <div
+                key={product.id}
+                className="product-card"
+                onClick={() => navigate(`/product/${product.id}`)}
+              >
+                <img
+                  src={product.image || "/images/product-placeholder.png"}
+                  alt={product.title}
+                />
+                <h3>{product.title}</h3>
+                <p>₹{product.price}</p>
+                <button
+                  disabled={addingToCart === product.id}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    addToCart(product);
+                  }}
                 >
-                  <img
-                    className="product-image"
-                    src={product.image || "/images/product-placeholder.png"}
-                    alt={product.title}
-                    onError={e => {
-                      e.currentTarget.src = "/images/product-placeholder.png";
-                    }}
-                  />
-
-                  <div className="product-info">
-                    <h3 className="product-title">{product.title}</h3>
-                    {product.variety && (
-                      <p className="product-variety">{product.variety}</p>
-                    )}
-                    <p className="product-price">₹{product.price}</p>
-                    {product.description && (
-                      <p className="product-desc">{product.description}</p>
-                    )}
-
-                    <button
-                      className="add-to-cart-btn"
-                      disabled={addingToCart === product.id}
-                      onClick={e => {
-                        e.stopPropagation();
-                        addToCart(product);
-                      }}
-                    >
-                      {addingToCart === product.id ? "Adding…" : "Add to cart"}
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
+                  {addingToCart === product.id ? "Adding…" : "Add to cart"}
+                </button>
+              </div>
+            ))}
+          </div>
         </section>
       </div>
     </main>
   );
 }
-/ /   f o r c e d   g i t   t e s t  
- 

@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
+import { API_BASE } from "../api/client";
 import "./ProductBrowser.css";
 
 export default function ProductBrowser() {
@@ -40,27 +41,30 @@ export default function ProductBrowser() {
     }
   }, [selectedCategory]);
 
+
   async function loadCategories() {
     try {
-      const res = await axios.get('/api/categories');
+      const res = await axios.get(`${API_BASE}/categories`);
       setCategories(res.data);
     } catch (err) {
       console.error('Error loading categories:', err);
     }
   }
 
+
   async function loadVarieties(categoryId) {
     try {
-      const res = await axios.get(`/api/varieties/category/${categoryId}`);
+      const res = await axios.get(`${API_BASE}/varieties/category/${categoryId}`);
       setVarieties(res.data);
     } catch (err) {
       console.error('Error loading varieties:', err);
     }
   }
 
+
   async function loadProductsByCategory(categoryId) {
     try {
-      const res = await axios.get(`/api/products?categoryId=${categoryId}`);
+      const res = await axios.get(`${API_BASE}/products?categoryId=${categoryId}`);
       setProducts(res.data);
       groupProductsByVariety(res.data);
     } catch (err) {
@@ -68,11 +72,30 @@ export default function ProductBrowser() {
     }
   }
 
+
+
   async function searchProducts(query) {
     try {
-      const res = await axios.get(`/api/products?search=${query}`);
-      setProducts(res.data);
-      groupProductsByVariety(res.data);
+      // Check if query matches a category name
+      const matchedCategory = categories.find(cat => cat.name.toLowerCase() === query.trim().toLowerCase());
+      let url = `${API_BASE}/products?`;
+      let params = [];
+      if (matchedCategory) {
+        setSelectedCategory(matchedCategory.id);
+        params.push(`categoryId=${matchedCategory.id}`);
+      } else if (selectedCategory) {
+        params.push(`categoryId=${selectedCategory}`);
+      }
+      params.push(`search=${encodeURIComponent(query)}`);
+      url += params.join('&');
+      const res = await axios.get(url);
+      // Exact match filter (title or variety)
+      const q = query.trim().toLowerCase();
+      const exact = res.data.filter(
+        p => (p.title && p.title.toLowerCase() === q) || (p.variety && p.variety.toLowerCase() === q)
+      );
+      setProducts(exact);
+      groupProductsByVariety(exact);
     } catch (err) {
       console.error('Error searching products:', err);
     }

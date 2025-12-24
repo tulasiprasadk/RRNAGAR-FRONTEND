@@ -58,12 +58,14 @@ const AdminAdsList = () => {
               <td className="border p-2">{ad.id}</td>
               <td className="border p-2">{ad.title}</td>
               <td className="border p-2">
-                {ad.image_url && (
+                {(ad.image_url || ad.image || ad.url || ad.src) ? (
                   <img
-                    src={`${ad.image_url}`}
-                    alt=""
+                    src={ad.image_url || ad.image || ad.url || ad.src}
+                    alt={ad.title || "ad"}
                     className="w-32 rounded"
                   />
+                ) : (
+                  "—"
                 )}
               </td>
               <td className="border p-2">

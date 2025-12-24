@@ -45,7 +45,7 @@ Created flexible SMS service supporting multiple providers:
 Copy `.env.example` to `.env` and configure:
 
 ```bash
-cp backend/.env.example backend/.env
+cp rrw-backend/.env.example rrw-backend/.env
 ```
 
 ### SMS Provider Setup
@@ -87,7 +87,7 @@ SMS_SENDER_ID=RRNAGR
 
 Run the admin creation script:
 ```bash
-cd backend
+cd rrw-backend
 node scripts/create-admin.js
 ```
 

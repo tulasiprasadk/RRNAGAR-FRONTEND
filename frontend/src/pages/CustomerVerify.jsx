@@ -8,7 +8,7 @@ export default function CustomerVerify() {
   const location = useLocation();
 
   const email = location.state?.email || "";
-  const [otp, setOtp] = useState("");
+  // const [otp, setOtp] = useState("");
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [address, setAddress] = useState({
     name: "",
@@ -21,31 +21,27 @@ export default function CustomerVerify() {
 
   const handleVerify = async () => {
     try {
-      const res = await axios.post(`${API_BASE}/auth/verify-email-otp`, { email, otp }, { withCredentials: true });
+      // Call backend with just email (no OTP)
+      const res = await axios.post(`${API_BASE}/auth/verify-email-otp`, { email }, { withCredentials: true });
 
       // Check if user has saved addresses
       try {
         const addressRes = await axios.get(`${API_BASE}/customer/address`, { withCredentials: true });
-        
         if (addressRes.data && addressRes.data.length > 0) {
-          // User has addresses, redirect to dashboard
           navigate("/dashboard");
         } else {
-          // User has no addresses, show form
           setShowAddressForm(true);
         }
       } catch (err) {
-        // If error fetching addresses, show form for first-time users
         if (res.data.isNewUser) {
           setShowAddressForm(true);
         } else {
           navigate("/dashboard");
         }
       }
-
     } catch (err) {
       console.error(err);
-      alert("Invalid OTP");
+      alert("Login failed");
     }
   };
 
@@ -151,18 +147,10 @@ export default function CustomerVerify() {
 
   return (
     <div style={{ padding: 30 }}>
-      <h2>Verify OTP</h2>
-
-      <p>OTP sent to: <b>{email}</b></p>
-
-      <input
-        value={otp}
-        onChange={(e) => setOtp(e.target.value)}
-        placeholder="Enter OTP"
-      />
-
+      <h2>Login with Email</h2>
+      <p>Click below to login as <b>{email}</b></p>
       <button onClick={handleVerify} style={{ marginTop: 10 }}>
-        Verify OTP
+        Login
       </button>
     </div>
   );

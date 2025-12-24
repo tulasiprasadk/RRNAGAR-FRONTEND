@@ -10,43 +10,13 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const requestOtp = async () => {
+  const handleLogin = async () => {
     if (!email) {
       alert("Please enter an email address");
       return;
     }
-
-    try {
-      setLoading(true);
-
-      // IMPORTANT:
-      // This uses axios.defaults.baseURL
-      // which is set in main.jsx
-
-      await axios.post(
-        `${API_BASE}/supplier/auth/request-email-otp`,
-        { email }
-      );
-
-      navigate("/verify", { state: { email } });
-
-    } catch (err) {
-      console.error("OTP Request Error:", err);
-
-      let msg =
-        err?.response?.data?.error ||
-        err?.response?.data?.message ||
-        err?.message ||
-        "Unable to send OTP, please try again.";
-
-      if (typeof msg === "object") {
-        msg = JSON.stringify(msg);
-      }
-
-      alert(msg);
-    } finally {
-      setLoading(false);
-    }
+    // Go directly to verify page, which now logs in with just email
+    navigate("/verify", { state: { email } });
   };
 
   return (
@@ -67,19 +37,18 @@ export default function Login() {
       />
 
       <button
-        onClick={requestOtp}
-        disabled={loading}
+        onClick={handleLogin}
         style={{
           marginTop: "15px",
           padding: "10px 20px",
-          background: loading ? "#999" : "#007bff",
+          background: "#007bff",
           color: "white",
           border: "none",
           borderRadius: "5px",
-          cursor: loading ? "not-allowed" : "pointer",
+          cursor: "pointer",
         }}
       >
-        {loading ? "Sending OTP..." : "Get OTP"}
+        Login
       </button>
     </div>
   );

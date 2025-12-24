@@ -2,14 +2,14 @@
 
 This repo is configured for:
 - Frontend on Vercel (domain: https://www.rrnagar.com)
-- Backend API on Render (URL: https://rrnagar-coming-soon.onrender.com)
+- Backend API on Render (URL: https://rrw-backend.onrender.com)
 
 ## Frontend (Vercel)
 
 Environment Variables (Project Settings → Environment Variables):
 - VITE_BASE_PATH = /
 - VITE_API_BASE_URL = https://rrnagar-coming-soon.onrender.com/api
-- VITE_BACKEND_ORIGIN = https://rrnagar-coming-soon.onrender.com
+- VITE_BACKEND_ORIGIN = https://rrw-backend.onrender.com
 
 Build settings:
 - Framework Preset: Other

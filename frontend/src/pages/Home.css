@@ -1,337 +1,282 @@
-/* -----------------------------------
+/* ===================================
+   ADS GRID SECTION
+=================================== */
+.ads-grid-section {
+  margin: 32px 0 24px 0;
+}
+.ads-grid-section h2 {
+  font-size: 1.5rem;
+  margin-bottom: 16px;
+  text-align: left;
+}
+.ads-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+.ad-item {
+  background: #fffbe6;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  min-height: 180px;
+}
+.ad-item img {
+  max-width: 100%;
+  max-height: 140px;
+  object-fit: contain;
+  border-radius: 12px;
+}
+/* ===================================
+   HOME LAYOUT — VERCEL FIX
+=================================== */
+
+.home-layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  max-width: 1200px;     /* 🔑 prevents overlap */
+  margin: 0 auto;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+.home-sidebar {
+  flex: 0 0 120px;       /* 🔑 limits ad width */
+  max-width: 120px;
+  box-sizing: border-box;
+}
+
+/* Hide ads on smaller screens */
+@media (max-width: 1100px) {
+  .home-sidebar {
+    display: none;
+  }
+}
+/* =================================================
+   HOME PAGE LAYOUT (FIXES MEGA AD OVERLAP)
+================================================= */
+
+.home-layout {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  box-sizing: border-box;
+}
+
+.home-sidebar {
+  flex: 0 0 120px;
+  max-width: 120px;
+  min-width: 100px;
+  box-sizing: border-box;
+  z-index: 1;
+}
+
+/* =================================================
    PAGE BASE
------------------------------------ */
+================================================= */
+
 .home {
-  background: white;
-  font-family: 'Noto Sans Kannada', system-ui, sans-serif;
+  background: #ffffff;
+  font-family: "Noto Sans Kannada", system-ui, sans-serif;
   padding-bottom: 40px;
 }
 
-/* -----------------------------------
-   HERO SECTION - Optimized for 1900x400 images
------------------------------------ */
+/* =================================================
+   HERO
+================================================= */
+
 .hero {
   position: relative;
   width: 100%;
-  min-height: 300px;
+  height: 400px;
   overflow: hidden;
-  background: #f5f5f5;
 }
 
-.hero-inner { 
-  width: 100%; 
-  height: auto;
-  position: relative; 
-  display: block;
-}
-
-.hero-image {
+.hero img {
   width: 100%;
-  height: auto;
-  position: relative;
-}
-
-.hero-image img {
-  width: 100%;
-  height: auto;
-  max-height: 400px;
+  height: 100%;
   object-fit: cover;
-  object-position: center center;
-  filter: brightness(0.78);
   display: block;
 }
 
 .hero-text {
   position: absolute;
-  left: 50%;
   top: 50%;
+  left: 50%;
   transform: translate(-50%, -50%);
-  text-align: center;
-  color: white;
-  width: 100%;
-  max-width: 800px;
-  padding: 0 20px;
   z-index: 2;
-
-  /* +25% text scale without breaking grid */
-  font-size: 1.25em;
+  text-align: center;
+  color: #fff;
+  width: 100%;
+  padding: 0 16px;
+  box-sizing: border-box;
 }
 
-}
-
-.hero-title {
-  font-size: clamp(24px, 5vw, 36px);
-  font-weight: 800;
+.hero-text h1 {
   margin-bottom: 8px;
-  line-height: 1.2;
- font-size: 1.25em;
 }
 
-.hero-sub {
-  font-size: clamp(14px, 2.5vw, 16px);
+.hero-text p {
   margin-bottom: 16px;
- font-size: 1.25em;
 }
+
+/* =================================================
+   HERO SEARCH
+================================================= */
 
 .hero-search {
   display: flex;
-  justify-content: center;
-  gap: 10px;
-  flex-wrap: wrap;
- font-size: 1.25em;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.85);
+  padding: 12px 16px;
+  border-radius: 8px;
+  max-width: 480px;
+  margin: 0 auto;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
-.hero-search-input {
-  width: 100%;
-  max-width: 380px;
-  padding: 12px 14px;
-  border-radius: 10px;
-  border: none;
-  font-size: 14px;
- font-size: 1.25em;
+.hero-search input {
+  flex: 1;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  outline: none;
 }
 
-.hero-search-btn {
-  padding: 12px 18px;
-  background: #c8102e;
-  color: white;
+.hero-search button {
+  padding: 10px 20px;
+  background: #e31e24;
+  color: #fff;
   border: none;
-  border-radius: 10px;
+  border-radius: 6px;
+  font-size: 1rem;
   cursor: pointer;
-  font-weight: 600;
-  white-space: nowrap;
- font-size: 1.25em;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .hero {
-    height: 350px;
-  }
-  
-  .hero-search {
-    padding: 0 10px;
-  }
-  
-  .hero-search-input {
-    max-width: 100%;
-  }
+.hero-search button:hover {
+  background: #b71c1c;
 }
 
-@media (max-width: 480px) {
-  .hero {
-    height: 300px;
-  }
-  
-  .hero-search {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  
-  .hero-search-btn {
-    width: 100%;
-  }
-}
-
-/* -----------------------------------
-   CONTENT WRAPPER
------------------------------------ */
-.content {
-  width: 100%;
-  margin: 40px 0;
-  padding: 0;
-  overflow: visible;
-  position: relative;
-  z-index: 5;
-}
-
-/* -----------------------------------
-   POPULAR CATEGORIES
------------------------------------ */
-.section {
-  position: relative;
-  z-index: 10;
-  margin: 40px 0;
-  background: white;
-  padding: 20px 0;
-}
-
-.section-title {
-  font-size: 26px;
-  font-weight: 700;
-  text-align: center;
-  margin-bottom: 18px;
-  color: #333;
-}
+/* =================================================
+   CATEGORIES
+================================================= */
 
 .cat-row {
-  display: flex !important;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 25px;
-  position: relative;
-  z-index: 10;
-  min-height: 100px;
-  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 16px;
 }
 
 .cat-card {
-  background: #ffe84b !important;
-  padding: 20px 16px;
-  border-radius: 12px;
-  text-align: center;
   width: 140px;
-  box-shadow: 0 6px 14px rgba(0,0,0,0.08);
-  cursor: pointer;
-  transition: transform 0.3s ease;
+  height: 140px;
+  background: #ffe84b;
+  border-radius: 18px;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .cat-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
-.cat-card .label {
-  color: #c8102e;
-  font-weight: 700;
-  font-size: 16px;
-  margin-top: 8px;
-}
-
-.cat-image {
-  width: 80px;
-  height: 80px;
-  object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 8px;
-}
-
-.icon {
+.cat-icon {
   font-size: 48px;
-  margin-bottom: 6px;
-  display: block;
 }
 
-/* -----------------------------------
-   ADS MARQUEE (RIGHT → LEFT)
------------------------------------ */
-.ads-viewport {
+.cat-name {
+  font-size: 20px;
+  font-weight: 800;
+}
+
+/* =================================================
+   ADS SCROLL
+================================================= */
+
+.ad-scroll-container {
   width: 100%;
   overflow: hidden;
-  margin-top: 12px;
-  display: flex;
-  justify-content: center;
-  position: relative;
-  z-index: 1;
+  padding: 12px 0;
 }
 
-.ads-track {
+.ad-track {
   display: flex;
-  gap: 120px;
-  width: max-content;
+  gap: 24px;
   animation: ads-scroll 25s linear infinite;
 }
 
 @keyframes ads-scroll {
   from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  to { transform: translateX(-50%); }
 }
 
-.ad-item {
-  background: #ffd700;
+.ad-banner {
   width: 180px;
-  height: 160px;
-  border-radius: 14px;
-  padding: 15px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  text-decoration: none;
-  overflow: hidden;
-  box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+  height: 180px;
+  border-radius: 12px;
+  object-fit: cover;
 }
 
-.ad-item img {
-  width: 90px;
-  height: 90px;
-  object-fit: contain;
-  margin: 10px 0;
-}
+/* =================================================
+   DISCOVER SCROLL
+================================================= */
 
-.ad-title {
-  color: #b00018;
-  font-size: 16px;
-  font-weight: 700;
-  text-align: center;
-  margin-top: auto;
-  margin-bottom: 12px;
-}
-
-/* -----------------------------------
-   DISCOVER MARQUEE (LEFT → RIGHT)
------------------------------------ */
-.discover-viewport {
+.discover-scroll {
   width: 100%;
   overflow: hidden;
-  position: relative;
-  padding: 20px 0;
-  min-height: 220px;
+  padding: 12px 0;
 }
 
 .discover-track {
   display: flex;
-  gap: 24px;
-  width: calc(var(--scroll-width) * 2);
-  animation: discover-scroll 35s linear infinite;
-  animation-direction: reverse;
+  gap: 48px;
+  width: max-content;
+  animation: discover-scroll 30s linear infinite;
+}
+
+.discover-track > * {
+  flex: 0 0 auto;
 }
 
 @keyframes discover-scroll {
-  from { transform: translateX(0); }
-  to   { transform: translateX(calc(var(--scroll-width) * -1)); }
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
 }
 
-.discover-item {
-  flex: 0 0 auto;
-  width: 280px;      /* gives breathing room */
-  display: flex;
-  justify-content: center;
-  overflow: visible !important;
-}
-/* FIX DISCOVER ITEM WIDTH (keeps yellow box shape) */
-.discover-item {
-  flex: 0 0 260px;      /* fixed box width */
-  height: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.discover-scroll:hover .discover-track {
+  animation-play-state: paused;
 }
 
-/* -----------------------------------
+/* =================================================
    PRODUCTS GRID
------------------------------------ */
+================================================= */
+
 .products-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 24px;
-  padding: 20px 0;
 }
 
 .product-card {
-  background: white;
+  background: #fff;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .product-card:hover {
@@ -339,70 +284,31 @@
   box-shadow: 0 8px 20px rgba(227, 30, 36, 0.2);
 }
 
-.product-image {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  background: #f5f5f5;
+/* =================================================
+   RESPONSIVE
+================================================= */
+
+@media (max-width: 1100px) {
+  .home-sidebar {
+    display: none;
+  }
 }
 
-.product-info {
-  padding: 16px;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
+@media (max-width: 480px) {
+  .hero {
+    height: 220px;
+  }
 
-.product-title {
-  font-size: 18px;
-  font-weight: 700;
-  color: #333;
-  margin: 0;
-}
+  .hero-text {
+    top: 0;
+    left: 0;
+    transform: none;
+    background: rgba(0, 0, 0, 0.35);
+    padding: 24px 16px;
+    border-radius: 0 0 16px 16px;
+  }
 
-.product-variety {
-  font-size: 13px;
-  color: #666;
-  margin: 0;
+  .hero-search {
+    width: 95vw;
+  }
 }
-
-.product-price {
-  font-size: 20px;
-  font-weight: 800;
-  color: #e31e24;
-  margin: 0;
-}
-
-.product-desc {
-  font-size: 14px;
-  color: #777;
-  margin: 0;
-  line-height: 1.4;
-}
-
-.add-to-cart-btn {
-  margin-top: 12px;
-  width: 100%;
-  padding: 10px;
-  background: #e31e24;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.add-to-cart-btn:hover:not(:disabled) {
-  background: #c41920;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(227, 30, 36, 0.3);
-}
-
-.add-to-cart-btn:disabled {
-  background: #ccc;
-  cursor: not-allowed;
-}
-

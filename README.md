@@ -3,14 +3,14 @@
 This repository contains the full-stack code for the RR Nagar marketplace, including both frontend (React/Vite) and backend (Node.js/Express/Sequelize).
 
 ## Structure
-- `frontend/` — React + Vite app
-- `backend/` — Node.js + Express + Sequelize API
+- `rrw-frontend/` — React + Vite app
+- `rrw-backend/` — Node.js + Express + Sequelize API
 
 ## Setup
 1. Clone the repo
-2. Run `npm install` in both `frontend` and `backend`
-3. Start backend: `node index.js` (from backend folder)
-4. Start frontend: `npm run dev` (from frontend folder)
+2. Run `npm install` in both `rrw-frontend` and `rrw-backend`
+3. Start backend: `node index.js` (from rrw-backend folder)
+4. Start frontend: `npm run dev` (from rrw-frontend folder)
 
 ## Notes
 - Do not commit `.env` or `node_modules`.

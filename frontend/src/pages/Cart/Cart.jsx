@@ -1,3 +1,4 @@
+// This file has been cleaned of merge conflict markers.
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Cart.css";

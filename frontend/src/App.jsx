@@ -1,3 +1,8 @@
+// import HomeCompare from "./pages/HomeCompare.jsx";
+import Groceries from "./pages/Groceries.jsx";
+import LocalServices from "./pages/LocalServices.jsx";
+import Consultancy from "./pages/Consultancy.jsx";
+import PetServices from "./pages/PetServices.jsx";
 // frontend/src/App.jsx
 
 import React from "react";
@@ -5,6 +10,8 @@ import axios from "axios";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 
 import { AdminAuthProvider } from "./context/AdminAuthContext";
+import { CrackerCartProvider } from "./context/CrackerCartContext";
+import { QuickCartProvider } from "./context/QuickCartContext";
 
 /* LAYOUT */
 import Header from "./components/Header";
@@ -17,6 +24,7 @@ import Crackers from "./pages/Crackers.jsx";
 import Flowers from "./pages/Flowers.jsx";
 import ProductBrowser from "./pages/ProductBrowser.jsx";
 import ProductDetail from "./pages/ProductDetail/ProductDetail.jsx";
+import Products from "./pages/Products.jsx";
 import CartPage from "./pages/CartPage.jsx";
 import CheckoutReview from "./pages/CheckoutReview.jsx";
 import OrderSuccess from "./pages/OrderSuccess/OrderSuccess.jsx";
@@ -85,13 +93,19 @@ function AppWrapper() {
           {/* USER */}
           <Route path="/" element={<Home />} />
           <Route path="/browse" element={<ProductBrowser />} />
+          <Route path="/products" element={<Products />} />
           <Route path="/dashboard" element={<UserDashboard />} />
           <Route path="/saved-suppliers" element={<SavedSuppliersPage />} />
           <Route path="/checkout/select-address" element={<SelectAddressPage />} />
 
           {/* SPECIAL */}
           <Route path="/crackers" element={<Crackers />} />
+          {/* <Route path="/home-compare" element={<HomeCompare />} /> */}
+          <Route path="/groceries" element={<Groceries />} />
           <Route path="/flowers" element={<Flowers />} />
+          <Route path="/localservices" element={<LocalServices />} />
+          <Route path="/consultancy" element={<Consultancy />} />
+          <Route path="/petservices" element={<PetServices />} />
 
           {/* AUTH */}
           <Route path="/login" element={<Login />} />
@@ -171,10 +185,13 @@ function AppWrapper() {
 /* MAIN */
 export default function App() {
   axios.defaults.withCredentials = true;
-
   return (
     <AdminAuthProvider>
-      <AppWrapper />
+      <CrackerCartProvider>
+        <QuickCartProvider>
+          <AppWrapper />
+        </QuickCartProvider>
+      </CrackerCartProvider>
     </AdminAuthProvider>
   );
 }

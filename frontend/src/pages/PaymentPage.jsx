@@ -42,62 +42,44 @@ export default function PaymentPage() {
     }
   };
 
+
   // ------------------------------
-  // Upload Screenshot
+  // Submit Payment (Screenshot or UNR)
   // ------------------------------
-  const uploadScreenshot = async () => {
-    if (!file) {
-      alert("Please select an image");
+  const submitPayment = async () => {
+    if (!file && !txnId) {
+      alert("Please provide either a payment screenshot or a transaction ID.");
       return;
     }
 
-    // 1️⃣ Compress image
-    const compressed = await compressImage(file);
-
-    // 2️⃣ Create FormData
     const form = new FormData();
-    form.append("screenshot", compressed);
-
-    // 3️⃣ Upload
-    const res = await axios.post(
-      `/api/customer/payment/upload/${orderId}`,
-      form,
-      {
-        headers: { "Content-Type": "multipart/form-data" }
-      }
-    );
-
-    setUploadedPath(res.data.file);
-    alert("Screenshot uploaded successfully!");
-  };
-
-  // ------------------------------
-  // Submit Payment
-  // ------------------------------
-  const submitPayment = async () => {
-    if (!txnId) {
-      alert("Enter Transaction ID");
-      return;
+    form.append("orderId", orderId);
+    if (file) {
+      // Compress image before upload
+      const compressed = await compressImage(file);
+      form.append("paymentScreenshot", compressed);
+    }
+    if (txnId) {
+      form.append("unr", txnId);
     }
 
     try {
-      await axios.put(`/api/orders/${orderId}/unr`, {
-        paymentUNR: txnId,
-        paymentMethod: method
+      await axios.post("/api/orders/submit-payment", form, {
+        headers: { "Content-Type": "multipart/form-data" }
       });
-
-      // Navigate to thank you page with order details
       navigate("/payment-success", {
         state: {
           orderId: orderId,
           txnId: txnId,
-          screenshot: uploadedPath,
+          screenshot: file ? URL.createObjectURL(file) : "",
           paymentMethod: method
         }
       });
     } catch (error) {
       console.error("Error submitting payment:", error);
-      alert("Failed to submit payment. Please try again.");
+      alert(
+        error?.response?.data?.msg || "Failed to submit payment. Please try again."
+      );
     }
   };
 
@@ -167,37 +149,7 @@ export default function PaymentPage() {
           }}
         />
 
-        <button 
-          onClick={uploadScreenshot} 
-          style={{ 
-            padding: '12px 24px',
-            background: '#007bff',
-            color: 'white',
-            border: 'none',
-            borderRadius: '6px',
-            cursor: 'pointer',
-            fontSize: '16px',
-            fontWeight: 'bold'
-          }}
-        >
-          📤 Upload Screenshot
-        </button>
 
-        {uploadedPath && (
-          <div style={{ marginTop: '20px', textAlign: 'center' }}>
-            <p style={{ color: '#28a745', fontWeight: 'bold', marginBottom: '10px' }}>✅ Screenshot uploaded successfully!</p>
-            <img
-              src={uploadedPath}
-              alt="Payment Proof"
-              style={{ 
-                maxWidth: '100%', 
-                maxHeight: '200px',
-                border: '2px solid #28a745',
-                borderRadius: '8px'
-              }}
-            />
-          </div>
-        )}
       </div>
 
       <div style={{ 

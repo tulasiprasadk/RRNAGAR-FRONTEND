@@ -1,6 +1,6 @@
 // src/api/index.js
 
-const BASE = import.meta.env.VITE_API_BASE || "";
+const BASE = import.meta.env.VITE_API_BASE || "/api";
 
 // Get all products or search by keyword
 export async function getProducts(query = "") {

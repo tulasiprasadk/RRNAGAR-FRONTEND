@@ -10,9 +10,8 @@ const isDev = import.meta.env.DEV;
 // API base URL
 // - Dev: use Vite proxy (/api → localhost backend)
 // - Prod: use Render backend URL
-axios.defaults.baseURL = isDev
-  ? ""
-  : import.meta.env.VITE_API_URL;
+
+// axios.defaults.baseURL is disabled to ensure all requests use explicit API_BASE or helpers
 
 axios.defaults.withCredentials = true;
 

@@ -10,25 +10,25 @@ export default function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  useEffect(() => {
-    checkLoginStatus();
-  }, [location.pathname]);
+  // useEffect(() => {
+  //   checkLoginStatus();
+  // }, [location.pathname]);
 
-  async function checkLoginStatus() {
-    try {
-      const res = await axios.get("/api/auth/me");
-      if (res.data && res.data.loggedIn) {
-        const customer = res.data.customer || {};
-        setIsLoggedIn(true);
-        setCustomerName(customer.name || customer.mobile || "");
-      } else {
-        setIsLoggedIn(false);
-        setCustomerName("");
-      }
-    } catch (err) {
-      setIsLoggedIn(false);
-    }
-  }
+  // async function checkLoginStatus() {
+  //   try {
+  //     const res = await axios.get("/api/auth/me");
+  //     if (res.data && res.data.loggedIn) {
+  //       const customer = res.data.customer || {};
+  //       setIsLoggedIn(true);
+  //       setCustomerName(customer.name || customer.mobile || "");
+  //     } else {
+  //       setIsLoggedIn(false);
+  //       setCustomerName("");
+  //     }
+  //   } catch (err) {
+  //     setIsLoggedIn(false);
+  //   }
+  // }
 
   async function handleLogout() {
     try {

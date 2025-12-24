@@ -63,12 +63,12 @@ CORS_ORIGINS=https://www.rrnagar.com,https://rrnagar.com
 ### Setup
 ```bash
 # Backend
-cd backend
+cd rrw-backend
 npm install
 node index.js
 
 # Frontend (in another terminal)
-cd frontend
+cd rrw-frontend
 npm install
 npm run dev
 ```
